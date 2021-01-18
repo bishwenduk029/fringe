@@ -3,8 +3,6 @@
         "allowSyntheticDefaultImports": true,
         "allowUnreachableCode": false,
         "skipDefaultLibCheck": true,
-        "declaration": true,
-        "declarationDir": "./",
         "esModuleInterop": true,
         "experimentalDecorators": true,
         "lib": [
@@ -16,7 +14,7 @@
         "module": "ESNext",
         "target": "ES2017",
         "noUnusedLocals": true,
-        "noUnusedParameters": true,
+        "noUnusedParameters": false,
         "jsx": "react",
         "jsxFactory": "h",
         "jsxFragmentFactory": "Fragment",
