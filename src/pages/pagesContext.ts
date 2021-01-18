@@ -10,7 +10,6 @@ const buildPagesContext = async (
     return files
       .filter(fileName => !pattern.test(fileName))
       .reduce(async (pagesContext, file) => {
-        logger.info(`Processing file ${file}`)
         const context = await import(file)
         return {
           ...pagesContext,

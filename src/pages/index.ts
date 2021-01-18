@@ -1,19 +1,20 @@
-export function resolvePagePath(pagePath, keys) {
-  const pagesMap = keys
+import logger from 'logging'
+
+export const DYNAMIC_PAGE = new RegExp('\\[(\\w+)\\]', 'g')
+
+export interface Page {
+  page: string
+  pagePath: string
+  context?: any
+  test: RegExp
+}
+
+export function resolvePagePath(pagePath: string, keys: string[]): Page {
+  const pagesMap: Page[] = keys
     .filter(page => page.indexOf('.graphql') < 0)
     .map(page => {
       let test = page
       let parts = []
-
-      const isDynamic = DYNAMIC_PAGE.test(page)
-
-      if (isDynamic) {
-        for (const match of page.matchAll(/\[(\w+)\]/g)) {
-          parts.push(match[1])
-        }
-
-        test = test.replace(DYNAMIC_PAGE, () => '([\\w_-]+)')
-      }
 
       test = test
         .replace('/', '\\/')
@@ -24,22 +25,14 @@ export function resolvePagePath(pagePath, keys) {
         page,
         pagePath: page.replace(/^\./, '').replace(/\.(js|jsx|ts|tsx)$/, ''),
         parts,
-        test: new RegExp('^' + test + '$', isDynamic ? 'g' : ''),
+        test: new RegExp('^' + test + '$', ''),
       }
     })
 
   /**
    * First, try to find an exact match.
    */
-  let page = pagesMap.find(p => pagePath === p.pagePath)
-
-  /**
-   * If there's no exact match and the user is requesting a special page,
-   * we need to return null as to not accidentally match a dynamic page below.
-   */
-  if (!page && isSpecialPage(pagePath)) {
-    return null
-  }
+  let page = pagesMap.find(p => p.pagePath.indexOf(pagePath) >= 0)
 
   if (!page) {
     /**
@@ -60,41 +53,20 @@ export function resolvePagePath(pagePath, keys) {
   }
 
   if (!page) return null
-  if (!page.parts.length) return page
-
-  let params = {}
-
-  page.test.lastIndex = 0
-
-  const matches = pagePath.matchAll(page.test)
-
-  for (const match of matches) {
-    page.parts.forEach((part, idx) => (params[part] = match[idx + 1]))
-  }
-
-  page.params = params
 
   return page
 }
 
-export function getPage(pagePath, context) {
+export function getPage(pagePath: string, context: any): Page {
   try {
-    const resolvedPage = resolvePagePath(pagePath, context.keys())
-    const page = context(resolvedPage.page)
+    const resolvedPage = resolvePagePath(pagePath, Object.keys(context))
+    const pageContext = context[resolvedPage.page]
 
     return {
       ...resolvedPage,
-      ...page,
+      context: pageContext,
     }
   } catch (e) {
-    if (pagePath === '/_app') {
-      return { default: App }
-    }
-
-    if (pagePath === '/_document') {
-      return { default: Document }
-    }
-
-    throw new PageNotFoundError()
+    logger.error(e)
   }
 }

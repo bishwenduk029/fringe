@@ -13,6 +13,8 @@
     "build": "microbundle --format modern build",
     "build:watch": "microbundle --watch --format modern build",
     "dev": "concurrently \"yarn build --watch\" \"nodemon --watch dist test/fixtures/index.js\" ",
+    "start": "node test/fixtures/index.js",
+    "debug": "node --inspect test/fixtures/index.js",
     "format": "prettier --write \"{src,test}/**/*.ts\"",
     "lint": "eslint \"{src,test}/**/*.ts\"",
     "test": "jest"
