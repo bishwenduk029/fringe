@@ -27,6 +27,7 @@ const processRequest = async (
   req: IncomingMessage,
 ): Promise<any> => {
   const normalizedPathname = normalizePathname(req.url)
+
   if (pageIsApi(normalizedPathname)) {
     const page: Page = getPage(normalizedPathname, pagesContext)
     const response = await page.context.default()

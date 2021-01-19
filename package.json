@@ -6,11 +6,12 @@
   "license": "MIT",
   "source": "index.ts",
   "main": "dist/fringe.js",
+  "exports": "./dist/fringe.js",
   "type": "module",
   "scripts": {
     "preversion": "yarn run lint && yarn run test",
     "prebuild": "rm -rf dist",
-    "build": "microbundle --format modern build",
+    "build": "microbundle --format modern build -o dist/fringe.js",
     "build:watch": "microbundle --watch --format modern build",
     "dev": "concurrently \"yarn build --watch\" \"nodemon --watch dist test/fixtures/index.js\" ",
     "start": "node test/fixtures/index.js",
