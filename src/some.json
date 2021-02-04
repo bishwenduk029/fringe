@@ -1,0 +1,28 @@
+{
+  "ROOT_QUERY": {
+    "launchesPast({\"limit\":\"2\"})": [
+      "Launch:Starlink-15 (v1.0):",
+      "Launch:Sentinel-6 Michael Freilich:"
+    ]
+  },
+  "Launch:Sentinel-6 Michael Freilich:": {
+    "__typename": "Launch",
+    "mission_name": "Sentinel-6 Michael Freilich",
+    "launch_date_local": "2020-11-21T09:17:00-08:00",
+    "launch_site": "LaunchSite::Vandenberg Air Force Base Space Launch Complex 4E"
+  },
+  "LaunchSite::Vandenberg Air Force Base Space Launch Complex 4E": {
+    "__typename": "LaunchSite",
+    "site_name_long": "Vandenberg Air Force Base Space Launch Complex 4E"
+  },
+  "Launch:Starlink-15 (v1.0):": {
+    "__typename": "Launch",
+    "mission_name": "Starlink-15 (v1.0)",
+    "launch_date_local": "2020-10-24T11:31:00-04:00",
+    "launch_site": "LaunchSite::Cape Canaveral Air Force Station Space Launch Complex 40"
+  },
+  "LaunchSite::Cape Canaveral Air Force Station Space Launch Complex 40": {
+    "__typename": "LaunchSite",
+    "site_name_long": "Cape Canaveral Air Force Station Space Launch Complex 40"
+  }
+}

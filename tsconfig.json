@@ -19,6 +19,7 @@
         "jsxFactory": "h",
         "jsxFragmentFactory": "Fragment",
         "baseUrl": "./src",
+        "sourceMap": true
     },
     "exclude": [
         "node_modules"

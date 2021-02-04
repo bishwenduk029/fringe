@@ -1,0 +1,11 @@
+query {
+  launchesPast(limit: 2) {
+    __typename
+    mission_name @fringe_cache
+    launch_date_local
+    launch_site {
+      __typename
+      site_name_long
+    }
+  }
+}

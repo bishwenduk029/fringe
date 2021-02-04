@@ -1,4 +1,5 @@
-import logger from 'logging'
+import logger from '../logging'
+import fs from 'fs'
 
 export const DYNAMIC_PAGE = new RegExp('\\[(\\w+)\\]', 'g')
 
@@ -10,24 +11,24 @@ export interface Page {
 }
 
 export function resolvePagePath(pagePath: string, keys: string[]): Page {
-  const pagesMap: Page[] = keys
-    .filter(page => page.indexOf('.graphql') < 0)
-    .map(page => {
-      let test = page
-      let parts = []
+  const pagesMap: Page[] = keys.map(page => {
+    let test = page
+    let parts = []
 
-      test = test
-        .replace('/', '\\/')
+    test = test
+      .replace('/', '\\/')
+      .replace(/^\./, '')
+      .replace(/\.(js|jsx|ts|tsx|graphql)$/, '')
+
+    return {
+      page,
+      pagePath: page
         .replace(/^\./, '')
-        .replace(/\.(js|jsx|ts|tsx)$/, '')
-
-      return {
-        page,
-        pagePath: page.replace(/^\./, '').replace(/\.(js|jsx|ts|tsx)$/, ''),
-        parts,
-        test: new RegExp('^' + test + '$', ''),
-      }
-    })
+        .replace(/\.(js|jsx|ts|tsx|graphql)$/, ''),
+      parts,
+      test: new RegExp('^' + test + '$', ''),
+    }
+  })
 
   /**
    * First, try to find an exact match.
@@ -57,10 +58,26 @@ export function resolvePagePath(pagePath: string, keys: string[]): Page {
   return page
 }
 
-export function getPage(pagePath: string, context: any): Page {
+export async function getPage(
+  pagePath: string,
+  context: string[],
+  isGraphQL: boolean = false,
+): Promise<Page> {
   try {
-    const resolvedPage = resolvePagePath(pagePath, Object.keys(context))
-    const pageContext = context[resolvedPage.page]
+    const resolvedPage = resolvePagePath(pagePath, context)
+    if (!resolvedPage) {
+      return null
+    }
+
+    if (isGraphQL) {
+      const query = await fs.promises.readFile(resolvedPage.page, 'utf-8')
+      return {
+        ...resolvedPage,
+        context: query,
+      }
+    }
+
+    const pageContext = await import(resolvedPage.page)
 
     return {
       ...resolvedPage,

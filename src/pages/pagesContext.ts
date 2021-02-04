@@ -1,4 +1,4 @@
-import logger from 'logging'
+import logger from '../logging'
 import dir from 'node-dir'
 
 const buildPagesContext = async (
@@ -7,15 +7,7 @@ const buildPagesContext = async (
 ): Promise<any> => {
   try {
     const files = await dir.promiseFiles(directory)
-    return files
-      .filter(fileName => !pattern.test(fileName))
-      .reduce(async (pagesContext, file) => {
-        const context = await import(file)
-        return {
-          ...pagesContext,
-          [file]: context,
-        }
-      }, {})
+    return files.filter(fileName => !pattern.test(fileName))
   } catch (error) {
     logger.error(error)
   }
