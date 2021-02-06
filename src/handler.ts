@@ -92,10 +92,8 @@ async function executeGQL(graphqlQuery: string, variables = {}, cache: Cache) {
   try {
     const ast: DocumentNode = parse(graphqlQuery)
     const { updatedAST, cacheFields } = extractCacheKeyFields(ast)
-    let response = getFromCache(cache, updatedAST)
-    console.log(JSON.stringify(response))
+    let response = await getFromCache(cache, updatedAST)
     if (!response || !response.data) {
-      console.log('oh no cache miss')
       const result = await fetch('https://api.spacex.land/graphql', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -104,13 +102,13 @@ async function executeGQL(graphqlQuery: string, variables = {}, cache: Cache) {
           variables,
         }),
       })
-      response = await result.json()
+      let response = await result.json()
       const getKey = obj =>
         `${obj.__typename}:${cacheFields
           .map(cacheField => obj[cacheField])
           .join(':')}`
       const normMap = normalize(updatedAST, undefined, response.data, getKey)
-      merge(cache, normMap)
+      await merge(cache, normMap)
     }
 
     return JSON.stringify(response.data)
@@ -144,8 +142,8 @@ export function extractCacheKeyFields(ast: DocumentNode) {
   return { updatedAST, cacheFields }
 }
 
-function getFromCache(cache: Cache, query: DocumentNode) {
-  const denormResult = denormalize(query, {}, cache)
+async function getFromCache(cache: Cache, query: DocumentNode) {
+  const denormResult = await denormalize(query, {}, cache)
 
   const setToJSON = (k, v) => (v instanceof Set ? Array.from(v) : v)
   return JSON.parse(JSON.stringify(denormResult, setToJSON))

@@ -1,5 +1,5 @@
 query {
-  launchesPast(limit: 2) {
+  launchesPast(limit: 4) {
     __typename
     mission_name @fringe_cache
     launch_date_local

@@ -91,7 +91,6 @@ export async function denormalize(
       responseObjectOrNewParentArray = null
     } else if (!Array.isArray(idOrIdArray)) {
       const key: NormKey = idOrIdArray as NormKey
-      console.log(key)
 
       const normObj = await normMap.get(key)
 

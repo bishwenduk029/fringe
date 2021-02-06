@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
-        "allowUnreachableCode": false,
+        //"allowUnreachableCode": false,
         "skipDefaultLibCheck": true,
         "esModuleInterop": true,
         "experimentalDecorators": true,
@@ -13,7 +13,7 @@
         "moduleResolution": "Node",
         "module": "ESNext",
         "target": "ES2017",
-        "noUnusedLocals": true,
+        //"noUnusedLocals": true,
         "noUnusedParameters": false,
         "jsx": "react",
         "jsxFactory": "h",

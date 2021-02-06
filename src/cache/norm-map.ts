@@ -1,3 +1,4 @@
+import logger from 'logging'
 import { Cache } from './index'
 
 export interface NormMap {
@@ -29,13 +30,20 @@ export async function merge(
   normMap: Cache,
   newNormMap: NormMap,
 ): Promise<void> {
-  for (const key of Object.keys(newNormMap)) {
-    let updatedNormMap = {}
-    const current = await normMap.get(key)
-    updatedNormMap = {
-      ...(current || {}),
-      ...newNormMap[key],
+  if (normMap) {
+    try {
+      for (const key of Object.keys(newNormMap)) {
+        let updatedNormMap = {}
+        const current = await normMap.get(key)
+        updatedNormMap = {
+          ...(current || {}),
+          ...newNormMap[key],
+        }
+        normMap.put(key, updatedNormMap)
+      }
+    } catch (error) {
+      logger.error(error)
     }
-    normMap.put(key, updatedNormMap)
   }
+  return
 }
