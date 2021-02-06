@@ -27,6 +27,7 @@ The about.graphql can be run at REST endpoint http://localhost:8080/about/graphq
 5.) Even execute GraphQL queries/mutations via file based routing for GraphQL.🔥
 
 (In-progress :🌘 👇)
+
 6.) Normalized Caching at edge of GraphQL results can offer better performance and again reduce the boilerplate for server codes.
 
 **[Example Project](./test/fixtures)**
