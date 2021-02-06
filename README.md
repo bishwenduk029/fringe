@@ -30,6 +30,16 @@ The about.graphql can be run at REST endpoint http://localhost:8080/about/graphq
 
 **[Example Project](./test/fixtures)**
 
+**Getting Started**
+
+  ```
+    cd into the root of project
+    yarn build
+    yarn run start 
+
+    Now hit the link http://localhost:8080/about/graphql/man
+  ```
+
 
 
 
