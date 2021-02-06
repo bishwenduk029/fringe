@@ -3,8 +3,6 @@ import fetch from 'node-fetch'
 import buildPagesContext from './pages/pagesContext'
 import { getPage, Page } from './pages'
 import logger from './logging'
-import RedisCache from 'cache/implementations/RedisCache'
-import { Cache, normalize, merge, denormalize } from 'cache'
 import { DocumentNode, parse, visit, print } from 'graphql'
 
 const FRINGE_CACHE = 'fringe_cache'
@@ -15,14 +13,11 @@ const buildHandler = async (source: string, pattern: RegExp) => {
 
     const pagesContext = await buildPagesContext(source, pattern)
 
-    logger.info('Setting up Redis Cache')
-    let cache: Cache = new RedisCache()
-
     const main: RequestListener = async (
       req: IncomingMessage,
       res: ServerResponse,
     ) => {
-      const result = await processRequest(pagesContext, req, cache)
+      const result = await processRequest(pagesContext, req)
       if (!result) {
         res.end(`Page not found: ${req.url}`)
       }
@@ -38,7 +33,6 @@ const buildHandler = async (source: string, pattern: RegExp) => {
 const processRequest = async (
   pagesContext: string[],
   req: IncomingMessage,
-  cache: Cache,
 ): Promise<any> => {
   const normalizedPathname = normalizePathname(req.url)
 
@@ -47,7 +41,7 @@ const processRequest = async (
   }
 
   if (pageIsGraphql(normalizedPathname)) {
-    return processGraphQLRequests(normalizedPathname, pagesContext, cache)
+    return processGraphQLRequests(normalizedPathname, pagesContext)
   }
 }
 
@@ -66,12 +60,11 @@ const processApiRequests = async (
 const processGraphQLRequests = async (
   normalizedPathname: string,
   pagesContext: string[],
-  cache: Cache,
 ) => {
   const page = await getPage(normalizedPathname, pagesContext, true)
   if (!page) return null
 
-  const response = await executeGQL(page.context, {}, cache)
+  const response = await executeGQL(page.context, {})
 
   return response
 }
@@ -88,28 +81,19 @@ function pageIsGraphql(page) {
   return page.indexOf('/graphql/') >= 0
 }
 
-async function executeGQL(graphqlQuery: string, variables = {}, cache: Cache) {
+async function executeGQL(graphqlQuery: string, variables = {}) {
   try {
     const ast: DocumentNode = parse(graphqlQuery)
     const { updatedAST, cacheFields } = extractCacheKeyFields(ast)
-    let response = await getFromCache(cache, updatedAST)
-    if (!response || !response.data) {
-      const result = await fetch('https://api.spacex.land/graphql', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          query: `${print(updatedAST)}`,
-          variables,
-        }),
-      })
-      let response = await result.json()
-      const getKey = obj =>
-        `${obj.__typename}:${cacheFields
-          .map(cacheField => obj[cacheField])
-          .join(':')}`
-      const normMap = normalize(updatedAST, undefined, response.data, getKey)
-      await merge(cache, normMap)
-    }
+    const result = await fetch('https://api.spacex.land/graphql', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: `${print(updatedAST)}`,
+        variables,
+      }),
+    })
+    let response = await result.json()
 
     return JSON.stringify(response.data)
   } catch (error) {
@@ -140,13 +124,6 @@ export function extractCacheKeyFields(ast: DocumentNode) {
   }
   const updatedAST: DocumentNode = visit(ast, visitor)
   return { updatedAST, cacheFields }
-}
-
-async function getFromCache(cache: Cache, query: DocumentNode) {
-  const denormResult = await denormalize(query, {}, cache)
-
-  const setToJSON = (k, v) => (v instanceof Set ? Array.from(v) : v)
-  return JSON.parse(JSON.stringify(denormResult, setToJSON))
 }
 
 export default buildHandler
