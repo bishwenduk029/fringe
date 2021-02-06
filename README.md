@@ -14,6 +14,7 @@ It supports following:
 This is a POC to run GraphQL at edge along with caching responses in a normalized form at edge. Just declare your GraphQL queries in .graphql files during your development.
 
 Project Structure:
+
 ![Image of Project Structure](https://user-images.githubusercontent.com/4037621/104008201-21147100-51cf-11eb-825b-5524b4457aa7.png)
 
 The about.graphql can be run at REST endpoint http://localhost:8080/about/graphql/about
