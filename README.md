@@ -20,15 +20,15 @@ Project Structure:
 The about.graphql can be run at REST endpoint http://localhost:8080/about/graphql/about
 
 ***Advantages***
-1.) Removes all GraphQL client boilerplate from frontend builds.
-2.) The model offers protection of origin GraphQL Server behind edge.
-3.) Improves developer experience with more focus on business at hand than on setup.
-4.) Write your component and define your GraphQL and keep them side by side with zero additional setup.
-5.) Even execute GraphQL queries/mutations via file based routing for GraphQL.🔥
+- Removes all GraphQL client boilerplate from frontend builds.
+- The model offers protection of origin GraphQL Server behind edge.
+- Improves developer experience with more focus on business at hand than on setup.
+- Write your component and define your GraphQL and keep them side by side with zero additional setup.
+- Even execute GraphQL queries/mutations via file based routing for GraphQL.🔥
 
 (In-progress :🌘 👇)
 
-6.) Normalized Caching at edge of GraphQL results can offer better performance and again reduce the boilerplate for server codes.
+- Normalized Caching at edge of GraphQL results can offer better performance and again reduce the boilerplate for server codes.
 
 **[Example Project](./test/fixtures)**
 
