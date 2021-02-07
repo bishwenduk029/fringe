@@ -1,4 +1,4 @@
-import startApp from '../../dist/index.js'
+import startApp from 'fringe'
 import { fileURLToPath } from 'url'
 import path from 'path'
 
