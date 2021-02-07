@@ -1,4 +1,4 @@
-Fringe is a framework agnostic **edge-runtime for serveless functions and graphql**.
+Fringe is a framework agnostic **edge-runtime for serverless functions and graphql**.
 
 It's inspired by frameworks like [Next.js](https://nextjs.org/) and [flareact](https://flareact.com/)
 

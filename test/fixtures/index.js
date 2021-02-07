@@ -1,4 +1,4 @@
-import startApp from '../../dist/fringe.modern.js'
+import startApp from '../../dist/index.js'
 import { fileURLToPath } from 'url'
 import path from 'path'
 

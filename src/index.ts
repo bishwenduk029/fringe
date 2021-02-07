@@ -1,6 +1,6 @@
 import http from 'http'
-import buildHandler from './src/handler'
-import logger from './src/logging'
+import buildHandler from './handler'
+import logger from './logging'
 
 const FRINGE_PORT = process.env.PORT || 8080
 const filePattern: RegExp = new RegExp('/.(js|jsx|ts|tsx|graphql)$/g')

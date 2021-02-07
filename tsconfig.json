@@ -13,7 +13,7 @@
         "moduleResolution": "Node",
         "module": "ESNext",
         "target": "ES2017",
-        //"noUnusedLocals": true,
+        "noUnusedLocals": true,
         "noUnusedParameters": false,
         "jsx": "react",
         "jsxFactory": "h",
