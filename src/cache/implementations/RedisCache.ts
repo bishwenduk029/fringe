@@ -11,7 +11,7 @@ class RedisCache implements Cache {
       process.env.REDIS_HOST || process.env.FLY_REDIS_CACHE_URL,
     )
     logger.info(
-      `Connecting to Redis instance at ${redisCredentials.hosts[0].name}:${redisCredentials.hosts[0].port}`,
+      `Connecting to Redis instance at ${redisCredentials.host}`,
     )
     if (process.env.REDIS_HOST) {
       // When using docker-compose for local development
@@ -19,8 +19,8 @@ class RedisCache implements Cache {
     } else if (process.env.FLY_REDIS_CACHE_URL) {
       // When hosting on Fly
       this.cache = createNodeRedisClient({
-        host: redisCredentials.hosts[0].name,
-        port: redisCredentials.hosts[0].port,
+        host: redisCredentials.hostname,
+        port: redisCredentials.port,
         password: redisCredentials.password,
       })
     }
