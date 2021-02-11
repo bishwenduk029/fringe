@@ -1,5 +1,7 @@
-import startApp from 'fringe'
+import startApp, { RedisCache } from 'fringe'
 import process from 'process'
 import path from 'path'
 
-startApp(path.resolve(process.cwd(), './src'))
+const cache = new RedisCache()
+
+startApp(path.resolve(process.cwd(), './src'), cache)

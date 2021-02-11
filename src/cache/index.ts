@@ -3,6 +3,7 @@ export { normalize } from './normalize'
 export { denormalize } from './denormalize'
 export { merge } from './norm-map'
 export { defaultGetObjectId } from './functions'
+export { RedisCache } from './implementations/RedisCache'
 
 // Exported types used in signature of exported functions
 export {

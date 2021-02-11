@@ -3,20 +3,16 @@ import fetch from 'node-fetch'
 import buildPagesContext from './pages/pagesContext'
 import { getPage, Page } from './pages'
 import logger from './logging'
-import RedisCache from 'cache/implementations/RedisCache'
 import { Cache, normalize, merge, denormalize } from 'cache'
 import { DocumentNode, parse, visit, print } from 'graphql'
 
 const FRINGE_CACHE = 'fringe_cache'
 
-const buildHandler = async (source: string, pattern: RegExp) => {
+const buildHandler = async (source: string, pattern: RegExp, cache: Cache) => {
   try {
     logger.info('Building the page context for all files')
 
     const pagesContext = await buildPagesContext(source, pattern)
-
-    logger.info('Setting up Redis Cache')
-    let cache: Cache = new RedisCache()
 
     const main: RequestListener = async (
       req: IncomingMessage,

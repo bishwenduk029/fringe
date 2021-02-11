@@ -3,7 +3,7 @@ import { createNodeRedisClient, WrappedNodeRedisClient } from 'handy-redis'
 import { ConnectionString } from 'connection-string'
 import logger from 'logging'
 
-class RedisCache implements Cache {
+export class RedisCache implements Cache {
   cache: WrappedNodeRedisClient
 
   constructor() {
@@ -36,4 +36,3 @@ class RedisCache implements Cache {
     return
   }
 }
-export default RedisCache
