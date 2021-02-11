@@ -1,7 +1,9 @@
 # Getting Started with Create Fringe App
 
-This project was bootstrapped with [Create Fringe App](https://github.com/ggoodman/fringe).
+This project was bootstrapped with [Create Fringe App](https://github.com/bishwenduk029/fringe).
 
+## Important Note: In order to deploy your apps to fly edge cloud, make sure to install flyctl command line utility.
+Relevant link for installation guide [here](https://github.com/superfly/flyctl).
 ## Available Scripts
 
 In the project directory, you can run:
@@ -14,8 +16,12 @@ The page will reload if you make edits.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder. It correctly bundles your Fringe app as a stand-alone Node server. Additionally, a `Dockerfile` is created for your convenience.
+Builds the app for production to the `build` folder. It correctly bundles your Fringe app as a stand-alone Node server. 
 
 ### `npm run start`
 
 Starts the stand-alone build from the `build` folder. Note that you must first build your app using `npm run build`.
+
+### `npm run deploy`
+
+Publish your app to [fly.io](https://fly.io) and enjoy autoscaling of your app.
