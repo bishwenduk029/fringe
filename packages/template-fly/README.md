@@ -3,7 +3,7 @@
 This project was bootstrapped with [Create Fringe App](https://github.com/bishwenduk029/fringe).
 
 ## Important Note: In order to deploy your apps to fly edge cloud, make sure to install flyctl command line utility.
-Relevant link for installation guide [here](https://github.com/superfly/flyctl).
+Relevant link for installation guide [here](https://fly.io/docs/speedrun).
 ## Available Scripts
 
 In the project directory, you can run:
