@@ -14,7 +14,7 @@ const GitHubUrlFromGit = require('github-url-from-git')
 const ChildProcess = require('child_process')
 const Events = require('events')
 
-const TEMPLATE_SPEC = 'ggoodman/fringe/packages/template#main'
+const TEMPLATE_SPEC = 'bishwenduk029/fringe/packages/template#main'
 
 const allowedFiles = new Set(['.gitignore'])
 const allowedDirectories = new Set(['.git'])

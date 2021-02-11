@@ -1,12 +1,17 @@
 {
   "name": "fringe",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Edge rendered React and GraphQL",
   "author": "Bishwendu Kundu",
   "license": "MIT",
   "source": "index.ts",
-  "main": "dist/fringe.js",
-  "exports": "./dist/fringe.js",
+  "main": "dist/index.js",
+  "bin": {
+    "fringe": "dist/cli/index.js"
+  },
+  "files": [
+    "dist"
+  ],
   "private": true,
   "type": "module",
   "scripts": {
@@ -21,19 +26,31 @@
   },
   "dependencies": {
     "@types/node-dir": "^0.0.33",
+    "cac": "^6.7.1",
+    "chalk": "^4.1.0",
+    "chokidar": "^3.5.1",
     "connection-string": "^4.3.2",
+    "esbuild": "0.8.43",
+    "graphql": "^15.4.0",
     "handy-redis": "^2.2.1",
     "node-dir": "^0.1.17",
     "node-fetch": "^2.6.1",
+    "pino": "^6.11.1",
+    "redis": "^3.0.2"
+  },
+  "peerDependencies": {
+    "@types/node-dir": "^0.0.33",
+    "connection-string": "^4.3.2",
     "graphql": "^15.4.0",
-    "pino": "^6.11.0",
+    "handy-redis": "^2.2.1",
+    "node-dir": "^0.1.17",
+    "node-fetch": "^2.6.1",
     "redis": "^3.0.2"
   },
   "devDependencies": {
     "@testing-library/react": "^11.1.0",
     "@types/jest": "^26.0.20",
     "babel-jest": "^26.2.2",
-    "esbuild": "^0.8.42",
     "eslint": "^7.14.0",
     "jest": "^26.2.2",
     "nodemon": "^2.0.7",

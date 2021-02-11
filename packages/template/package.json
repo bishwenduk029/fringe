@@ -2,7 +2,8 @@
   "name": "fringe-app",
   "version": "0.0.0",
   "description": "A Create Fringe App project",
-  "main": "./build/index.js",
+  "main": "dist/index.js",
+  "type": "module",
   "scripts": {
     "build": "fringe build",
     "dev": "fringe dev",
@@ -15,8 +16,6 @@
   ],
   "author": "",
   "license": "MIT",
-  "devDependencies": {
-    "fringe": "^0.68.5"
-  },
+  "devDependencies": {},
   "dependencies": {}
 }

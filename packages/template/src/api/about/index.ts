@@ -1,3 +1,3 @@
 export default function (): string {
-  return 'Hello Fringe App'
+  return 'Hello Fringe App from about'
 }
