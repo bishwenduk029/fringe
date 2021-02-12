@@ -4,7 +4,7 @@ import { readFileSync } from 'fs'
 import { resolve } from 'path'
 import { cac } from 'cac'
 import { handlError } from './errors'
-import pino from 'builders/node_modules/pino'
+import pino from 'pino'
 import esbuild from 'esbuild'
 import { CommonBuilderOptions } from 'builders'
 
