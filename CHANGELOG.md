@@ -11,4 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Introduced [`kacl`](https://npm.im/@brightcove/kacl) as a mechanism to lint and manage the changelog.
 - Introduced [`gh-release`](https://npm.im/gh-release) to produce releases on GitHub.
 
+## 0.0.5 - 2021-02-12
+### Added
+- Update the ReadMe.md to better reflect the intent of framework.
+
 [0.0.4]: https://github.com/bishwenduk029/fringe/compare/v0.0.1...v0.0.3
