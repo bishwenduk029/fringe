@@ -1,13 +1,13 @@
 {
   "name": "@bishwenduk029/fringe",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Edge rendered React and GraphQL",
   "author": "Bishwendu Kundu",
   "license": "MIT",
-  "source": "index.ts",
-  "main": "dist/index.js",
+  "source": "index.js",
+  "main": "index.js",
   "bin": {
-    "fringe": "dist/cli/index.js"
+    "fringe": "cli/index.js"
   },
   "files": [
     "dist"
