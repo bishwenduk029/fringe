@@ -4,9 +4,7 @@ import buildPagesContext from './pages/pagesContext'
 import { getPage, Page } from './pages'
 import logger from './logging'
 import { Cache, normalize, merge, denormalize } from 'cache'
-import { DocumentNode, parse, visit, print } from 'graphql'
-
-const FRINGE_CACHE = 'fringe_cache'
+import { DocumentNode } from 'graphql'
 
 const buildHandler = async (source: string, pattern: RegExp, cache: Cache) => {
   try {
@@ -64,7 +62,7 @@ const processGraphQLRequests = async (
   pagesContext: string[],
   cache: Cache,
 ) => {
-  const page = await getPage(normalizedPathname, pagesContext, true)
+  const page = await getPage(normalizedPathname, pagesContext)
   if (!page) return null
 
   const response = await executeGQL(page.context, {}, cache)
@@ -84,21 +82,23 @@ function pageIsGraphql(page) {
   return page.indexOf('/graphql/') >= 0
 }
 
-async function executeGQL(graphqlQuery: string, variables = {}, cache: Cache) {
+async function executeGQL(
+  { updatedAST, cacheFields, graphQLString }: any,
+  variables = {},
+  cache: Cache,
+) {
   try {
-    const ast: DocumentNode = parse(graphqlQuery)
-    const { updatedAST, cacheFields } = extractCacheKeyFields(ast)
     let response = await getFromCache(cache, updatedAST)
     if (!response || !response.data) {
       const result = await fetch('https://api.spacex.land/graphql', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          query: `${print(updatedAST)}`,
+          query: graphQLString,
           variables,
         }),
       })
-      let response = await result.json()
+      response = await result.json()
       const getKey = obj =>
         `${obj.__typename}:${cacheFields
           .map(cacheField => obj[cacheField])
@@ -113,31 +113,6 @@ async function executeGQL(graphqlQuery: string, variables = {}, cache: Cache) {
   }
 }
 
-export function extractCacheKeyFields(ast: DocumentNode) {
-  let cacheFields = []
-  let visitor = {
-    Field(node) {
-      if (node.directives.length) {
-        cacheFields = node.directives.reduce(
-          (cacheFields: string[], directive: any) => {
-            if (directive.name.value === FRINGE_CACHE)
-              return [...cacheFields, node.name.value]
-          },
-          cacheFields,
-        )
-        return {
-          ...node,
-          directives: node.directives.filter(
-            directive => directive.name.value !== FRINGE_CACHE,
-          ),
-        }
-      }
-    },
-  }
-  const updatedAST: DocumentNode = visit(ast, visitor)
-  return { updatedAST, cacheFields }
-}
-
 async function getFromCache(cache: Cache, query: DocumentNode) {
   const denormResult = await denormalize(query, {}, cache)
 
@@ -145,4 +120,4 @@ async function getFromCache(cache: Cache, query: DocumentNode) {
   return JSON.parse(JSON.stringify(denormResult, setToJSON))
 }
 
-export default { buildHandler }
+export default buildHandler

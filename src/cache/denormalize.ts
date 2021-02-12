@@ -95,7 +95,7 @@ export async function denormalize(
       const normObj = await normMap.get(key)
 
       // Does not exist in normalized map. We can't fully resolve query
-      if (normObj === undefined) {
+      if (!normObj) {
         return {
           data: undefined,
           fields: { [parentNormKey]: new Set([fieldNameInParent]) },

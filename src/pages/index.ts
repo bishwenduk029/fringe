@@ -1,5 +1,4 @@
 import logger from '../logging'
-import fs from 'fs'
 
 export const DYNAMIC_PAGE = new RegExp('\\[(\\w+)\\]', 'g')
 
@@ -18,18 +17,15 @@ export function resolvePagePath(pagePath: string, keys: string[]): Page {
     test = test
       .replace('/', '\\/')
       .replace(/^\./, '')
-      .replace(/\.(js|jsx|ts|tsx|graphql)$/, '')
+      .replace(/\.(js|jsx|ts|tsx)$/, '')
 
     return {
       page,
-      pagePath: page
-        .replace(/^\./, '')
-        .replace(/\.(js|jsx|ts|tsx|graphql)$/, ''),
+      pagePath: page.replace(/^\./, '').replace(/\.(js|jsx|ts|tsx)$/, ''),
       parts,
       test: new RegExp('^' + test + '$', ''),
     }
   })
-
   /**
    * First, try to find an exact match.
    */
@@ -61,20 +57,11 @@ export function resolvePagePath(pagePath: string, keys: string[]): Page {
 export async function getPage(
   pagePath: string,
   context: string[],
-  isGraphQL: boolean = false,
 ): Promise<Page> {
   try {
     const resolvedPage = resolvePagePath(pagePath, context)
     if (!resolvedPage) {
       return null
-    }
-
-    if (isGraphQL) {
-      const query = await fs.promises.readFile(resolvedPage.page, 'utf-8')
-      return {
-        ...resolvedPage,
-        context: query,
-      }
     }
 
     const pageContext = await import(resolvedPage.page)

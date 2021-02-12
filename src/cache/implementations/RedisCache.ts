@@ -27,11 +27,13 @@ export class RedisCache implements Cache {
   }
 
   async get(key: string) {
+    if (!key) return null
     const result = await this.cache.get(key)
     return JSON.parse(result)
   }
 
   async put(key: string, value: any) {
+    if (!key) return
     await this.cache.set(key, JSON.stringify(value))
     return
   }

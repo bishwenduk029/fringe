@@ -8,8 +8,8 @@ const filePattern: RegExp = new RegExp('/.(js|jsx|ts|tsx|graphql)$/g')
 
 const startApp = async (
   pages: string,
-  pattern: RegExp = filePattern,
   cache: Cache,
+  pattern: RegExp = filePattern,
 ) => {
   const handler = await buildHandler(pages, pattern, cache)
   const server = http.createServer(handler)

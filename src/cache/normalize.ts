@@ -130,7 +130,6 @@ export function normalize(
       const responseArray = responseObjectOrArray as ResponseArray
       keyOrNewParentArray = []
       for (let i = 0; i < responseArray.length; i++) {
-        console.log(JSON.stringify(responseArray[i]))
         stack.push([
           fieldNode,
           keyOrNewParentArray,

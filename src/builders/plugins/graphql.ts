@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { parse, visit, DocumentNode } from 'graphql'
+import { parse, visit, DocumentNode, print } from 'graphql'
 import { Plugin } from 'esbuild'
 
 const FRINGE_CACHE = 'fringe_cache'
@@ -45,9 +45,11 @@ const graphqlLoaderPlugin = (): Plugin => ({
         graphqlString,
       )
       return {
-        contents: `export const updatedAST=${JSON.stringify(
-          updatedAST,
-        )}; export const cacheFields=${cacheFields}`,
+        contents: `export const cacheFields=${JSON.stringify(
+          cacheFields,
+        )}; export const graphQLString = ${JSON.stringify(
+          print(updatedAST),
+        )};export const updatedAST=${JSON.stringify(updatedAST)};`,
       }
     })
   },

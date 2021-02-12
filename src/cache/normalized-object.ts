@@ -1,4 +1,4 @@
-import { NormKey, NormMap } from "./norm-map";
+import { NormKey, NormMap } from './norm-map'
 
 /**
  * Fetches an object from the normalized map, taking as type parameter the object
@@ -8,9 +8,9 @@ import { NormKey, NormMap } from "./norm-map";
  */
 export function getNormalizedObject<TDenormalized>(
   key: string,
-  normMap: NormMap
+  normMap: NormMap,
 ): NormalizedObject<TDenormalized> {
-  return normMap[key] as any;
+  return normMap[key] as any
 }
 
 export type NormalizedField<T> = T extends string
@@ -29,12 +29,12 @@ export type NormalizedField<T> = T extends string
   ? ReadonlyArray<number>
   : T extends ReadonlyArray<object>
   ? ReadonlyArray<NormKey>
-  : "undefined value";
+  : 'undefined value'
 
 /**
  * This type maps a denormalized object type to a normalized object type.
  * It does it by converting arrays of objects into arrays of normalized map keys.
  */
 export type NormalizedObject<TDenormalized> = {
-  readonly [P in keyof TDenormalized]: NormalizedField<TDenormalized[P]>;
-};
+  readonly [P in keyof TDenormalized]: NormalizedField<TDenormalized[P]>
+}
