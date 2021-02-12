@@ -1,6 +1,6 @@
 {
   "name": "@bishwenduk029/fringe",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Edge rendered React and GraphQL",
   "author": "Bishwendu Kundu",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "lint": "eslint \"{src,test}/**/*.ts\"",
     "test": "jest",
     "posttest": "kacl lint",
-    "prepack": "yarn run build",
+    "prepack": "yarn run build && yarn types",
     "preversion": "kacl prerelease",
     "version": "kacl release && git add CHANGELOG.md",
     "postversion": "git push --follow-tags && gh-release"
