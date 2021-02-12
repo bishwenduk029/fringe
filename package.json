@@ -1,5 +1,5 @@
 {
-  "name": "fringe",
+  "name": "@bishwenduk029/fringe",
   "version": "0.0.1",
   "description": "Edge rendered React and GraphQL",
   "author": "Bishwendu Kundu",
@@ -12,7 +12,6 @@
   "files": [
     "dist"
   ],
-  "private": true,
   "type": "module",
   "scripts": {
     "preversion": "yarn run lint && yarn run test",
@@ -40,11 +39,16 @@
   },
   "peerDependencies": {
     "@types/node-dir": "^0.0.33",
+    "cac": "^6.7.1",
+    "chalk": "^4.1.0",
+    "chokidar": "^3.5.1",
     "connection-string": "^4.3.2",
+    "esbuild": "0.8.43",
     "graphql": "^15.4.0",
     "handy-redis": "^2.2.1",
     "node-dir": "^0.1.17",
     "node-fetch": "^2.6.1",
+    "pino": "^6.11.1",
     "redis": "^3.0.2"
   },
   "devDependencies": {
@@ -60,5 +64,20 @@
   "workspaces": [
     "./packages/create-fringe-app",
     "./packages/template"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bishwenduk029/fringe.git"
+  },
+  "keywords": [
+    "edge-computing",
+    "serverless",
+    "functions",
+    "serverless-graphql",
+    "react"
+  ],
+  "bugs": {
+    "url": "https://github.com/bishwenduk029/fringe/issues"
+  },
+  "homepage": "https://github.com/bishwenduk029/fringe#readme"
 }

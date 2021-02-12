@@ -18,5 +18,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {
+    "@bishwenduk029/fringe": "0.0.1"
+  }
 }
