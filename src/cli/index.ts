@@ -4,9 +4,9 @@ import { readFileSync } from 'fs'
 import { resolve } from 'path'
 import { cac } from 'cac'
 import { handlError } from './errors'
-import pino from 'pino'
+import pino from 'builders/node_modules/pino'
 import esbuild from 'esbuild'
-import { CommonBuilderOptions } from 'build/builders'
+import { CommonBuilderOptions } from 'builders'
 
 const { startService } = esbuild
 
@@ -19,9 +19,9 @@ async function main() {
       ignoreOptionDefaultValue: true,
     })
     .action(async settings => {
-      const { ServerApisBuilder } = await import('../build/builders/api')
+      const { ServerApisBuilder } = await import('../builders/api')
 
-      const { ServerGraphQLBuilder } = await import('../build/builders/graphql')
+      const { ServerGraphQLBuilder } = await import('../builders/graphql')
 
       const options: CommonBuilderOptions = {
         logger: new pino(),

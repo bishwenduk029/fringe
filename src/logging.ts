@@ -1,4 +1,4 @@
-import pino from 'pino'
+import pino from 'builders/node_modules/pino'
 
 const logger = pino()
 
