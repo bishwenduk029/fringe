@@ -6,6 +6,7 @@ import fs from 'fs'
 import module from 'module'
 import graphqlLoaderPlugin from './plugins/graphql'
 import { CommonBuilderOptions } from '.'
+import { ThrottledDelayer } from 'ts-primitives'
 
 const { builtinModules } = module
 
@@ -30,7 +31,6 @@ export class ServerGraphQLBuilder {
     usePolling: true,
     interval: 16,
   })
-  private readonly watchedFiles = new Set<string>()
 
   constructor(options: CommonBuilderOptions) {
     this.logger = options.logger

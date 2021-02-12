@@ -18,10 +18,15 @@
         "jsx": "react",
         "jsxFactory": "h",
         "jsxFragmentFactory": "Fragment",
+        "emitDeclarationOnly": true,
+        "declaration": true,
         "baseUrl": "./src",
         "sourceMap": true
     },
     "exclude": [
-        "node_modules"
-    ]
+        "node_modules", "src/builders/**/*"
+    ],
+    "include": [
+        "src/**/*"
+    ],
 }

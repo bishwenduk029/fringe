@@ -5,6 +5,7 @@ import type { Logger } from 'pino'
 import fs from 'fs'
 import module from 'module'
 import { CommonBuilderOptions } from '.'
+import { ThrottledDelayer } from 'ts-primitives'
 
 const { builtinModules } = module
 
@@ -23,7 +24,6 @@ export class ServerApisBuilder {
     usePolling: true,
     interval: 16,
   })
-  private readonly watchedFiles = new Set<string>()
 
   constructor(options: CommonBuilderOptions) {
     this.logger = options.logger

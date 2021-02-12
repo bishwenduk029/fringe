@@ -1,6 +1,6 @@
 {
   "name": "@bishwenduk029/fringe",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Edge rendered React and GraphQL",
   "author": "Bishwendu Kundu",
   "license": "MIT",
@@ -14,14 +14,19 @@
   ],
   "type": "module",
   "scripts": {
-    "preversion": "yarn run lint && yarn run test",
     "prebuild": "rm -rf dist",
     "build": "yarn prebuild && node ./scripts/build.js",
+    "types": "tsc",
     "dev": "NODE_ENV=development SKIP_EMPTY=1 nodemon --watch src --watch scripts/build.js --ext js,jsx,ts,tsx ./scripts/build.js",
     "debug": "node --inspect test/fixtures/index.js",
     "format": "prettier --write \"{src,test}/**/*.ts\"",
     "lint": "eslint \"{src,test}/**/*.ts\"",
-    "test": "jest"
+    "test": "jest",
+    "posttest": "kacl lint",
+    "prepack": "yarn run build",
+    "preversion": "kacl prerelease",
+    "version": "kacl release && git add CHANGELOG.md",
+    "postversion": "git push --follow-tags && gh-release"
   },
   "dependencies": {
     "@types/node-dir": "^0.0.33",
@@ -35,7 +40,8 @@
     "node-dir": "^0.1.17",
     "node-fetch": "^2.6.1",
     "pino": "^6.11.1",
-    "redis": "^3.0.2"
+    "redis": "^3.0.2",
+    "ts-primitives": "^3.2.0"
   },
   "peerDependencies": {
     "@types/node-dir": "^0.0.33",
@@ -56,7 +62,9 @@
     "@types/jest": "^26.0.20",
     "babel-jest": "^26.2.2",
     "eslint": "^7.14.0",
+    "gh-release": "^5.0.0",
     "jest": "^26.2.2",
+    "kacl": "^1.0.0",
     "nodemon": "^2.0.7",
     "ts-jest": "^26.4.4",
     "typescript": "^4.1.3"
