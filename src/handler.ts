@@ -145,4 +145,4 @@ async function getFromCache(cache: Cache, query: DocumentNode) {
   return JSON.parse(JSON.stringify(denormResult, setToJSON))
 }
 
-export default buildHandler
+export default { buildHandler }

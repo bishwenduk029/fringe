@@ -1,7 +1,7 @@
 import http from 'http'
 import buildHandler from './handler'
 import logger from './logging'
-import { Cache } from 'cache'
+import { Cache, RedisCache } from 'cache'
 
 const FRINGE_PORT = process.env.PORT || 8080
 const filePattern: RegExp = new RegExp('/.(js|jsx|ts|tsx|graphql)$/g')
@@ -22,5 +22,7 @@ const startApp = async (
     logger.error(`Server failed to start ${JSON.stringify(error)}`)
   }
 }
+
+export { RedisCache }
 
 export default startApp

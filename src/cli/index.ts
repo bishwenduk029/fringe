@@ -6,6 +6,7 @@ import { cac } from 'cac'
 import { handlError } from './errors'
 import pino from 'pino'
 import esbuild from 'esbuild'
+import { CommonBuilderOptions } from 'build/builders'
 
 const { startService } = esbuild
 
@@ -19,14 +20,18 @@ async function main() {
     })
     .action(async settings => {
       const { ServerApisBuilder } = await import('../build/builders/api')
-      const options: ServerApiBuilderOptions = {
+
+      const { ServerGraphQLBuilder } = await import('../build/builders/graphql')
+
+      const options: CommonBuilderOptions = {
         logger: new pino(),
         service,
         rootDir: process.cwd(),
       }
-      const builder: ServerApisBuilder = new ServerApisBuilder(options)
-      const apiBuilder = builder.build()
-      await apiBuilder
+      let apiBuilder = new ServerApisBuilder(options).build()
+      let graphqlBuilder = new ServerGraphQLBuilder(options).build()
+
+      await Promise.all([apiBuilder, graphqlBuilder])
     })
 
   cli.help()
