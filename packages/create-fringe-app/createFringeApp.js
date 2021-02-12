@@ -120,8 +120,6 @@ function init() {
             }
           }
 
-          packageJson.dependencies['fringe'] = '0.0.1'
-
           const { bytesWritten } = await packageJsonHandle.write(
             JSON.stringify(packageJson, null, 2),
             0,

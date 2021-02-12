@@ -1,4 +1,4 @@
-import startApp, { RedisCache } from 'fringe'
+import startApp, { RedisCache } from '@bishwenduk029/fringe'
 import process from 'process'
 import path from 'path'
 
