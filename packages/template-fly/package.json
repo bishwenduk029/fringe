@@ -19,6 +19,6 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "@bishwenduk029/fringe": "0.0.7"
+    "@bishwenduk029/fringe": "0.0.8"
   }
 }
