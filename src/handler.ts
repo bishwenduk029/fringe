@@ -6,6 +6,11 @@ import logger from './logging'
 import { Cache, normalize, merge, denormalize } from 'cache'
 import { DocumentNode } from 'graphql'
 
+interface FringeResponse {
+  headers: object
+  response: any
+}
+
 const buildHandler = async (source: string, pattern: RegExp, cache: Cache) => {
   try {
     logger.info('Building the page context for all files')
@@ -17,10 +22,15 @@ const buildHandler = async (source: string, pattern: RegExp, cache: Cache) => {
       res: ServerResponse,
     ) => {
       const result = await processRequest(pagesContext, req, cache)
-      if (!result) {
-        res.end(`Page not found: ${req.url}`)
+      if (result) {
+        Object.keys(result.headers || []).forEach(header => {
+          res.setHeader(header, result.headers[header])
+        })
+        res.end(result.response)
+
+        return
       }
-      res.end(result)
+      res.end(`Page not found: ${req.url}`)
     }
 
     return main
@@ -33,7 +43,7 @@ const processRequest = async (
   pagesContext: string[],
   req: IncomingMessage,
   cache: Cache,
-): Promise<any> => {
+): Promise<FringeResponse> => {
   const normalizedPathname = normalizePathname(req.url)
 
   if (pageIsApi(normalizedPathname)) {
@@ -54,7 +64,7 @@ const processApiRequests = async (
 
   const response = await page.context.default()
 
-  return response
+  return { response, headers: { 'Content-Type': 'application/json' } }
 }
 
 const processGraphQLRequests = async (
@@ -67,7 +77,7 @@ const processGraphQLRequests = async (
 
   const response = await executeGQL(page.context, {}, cache)
 
-  return response
+  return { response, headers: { 'Content-Type': 'application/json' } }
 }
 
 function normalizePathname(pathname) {
