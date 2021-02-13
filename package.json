@@ -7,7 +7,7 @@
   "source": "index.js",
   "main": "index.js",
   "bin": {
-    "fringe": "cli/index.js"
+    "fringe": "dist/cli/index.js"
   },
   "files": [
     "dist"
