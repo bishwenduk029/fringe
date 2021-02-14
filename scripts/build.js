@@ -41,7 +41,6 @@ const deps = Array.from(
     write: true,
     inject: ['./shims/require-shim.js'],
   })
-  await fs.promises.copyFile('./package.json', './dist/package.json')
 })().catch(err => {
   console.trace(err)
   process.exit(1)

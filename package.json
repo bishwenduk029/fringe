@@ -10,7 +10,9 @@
     "fringe": "cli/index.js"
   },
   "files": [
-    "dist/**/*"
+    "dist/builders",
+    "dist/cli",
+    "dist/index.js"
   ],
   "type": "module",
   "scripts": {
