@@ -12,3 +12,4 @@ coverage
 build
 dist
 .DS_Store
+.vscode

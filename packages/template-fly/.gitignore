@@ -9,3 +9,4 @@ tsconfig.tsbuildinfo
 examples/*/build
 .env
 build
+.vscode
