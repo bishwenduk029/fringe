@@ -4,11 +4,14 @@
   "description": "Edge rendered React and GraphQL",
   "author": "Bishwendu Kundu",
   "license": "MIT",
-  "types": "index.d.ts",
-  "main": "index.js",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
   "bin": {
-    "fringe": "cli/index.js"
+    "fringe": "dist/cli/index.js"
   },
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "scripts": {
     "prebuild": "rm -rf dist",
