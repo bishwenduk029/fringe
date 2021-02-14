@@ -1,31 +1,26 @@
 {
   "name": "@bishwenduk029/fringe",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Edge rendered React and GraphQL",
   "author": "Bishwendu Kundu",
   "license": "MIT",
-  "source": "index.js",
+  "types": "index.d.ts",
   "main": "index.js",
   "bin": {
     "fringe": "cli/index.js"
   },
-  "files": [
-    "dist/builders",
-    "dist/cli",
-    "dist/index.js"
-  ],
   "type": "module",
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "yarn prebuild && node ./scripts/build.js",
-    "types": "tsc",
+    "types": "tsc --out dist/index.d.ts",
     "dev": "NODE_ENV=development SKIP_EMPTY=1 nodemon --watch src --watch scripts/build.js --ext js,jsx,ts,tsx ./scripts/build.js",
     "debug": "node --inspect test/fixtures/index.js",
     "format": "prettier --write \"{src,test}/**/*.ts\"",
     "lint": "eslint \"{src,test}/**/*.ts\"",
     "test": "jest",
     "posttest": "kacl lint",
-    "prepack": "yarn run build && yarn types",
+    "prepack": "yarn run build && yarn run types",
     "preversion": "kacl prerelease",
     "version": "kacl release && git add CHANGELOG.md",
     "postversion": "git push --follow-tags && gh-release"

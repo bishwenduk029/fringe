@@ -40,7 +40,10 @@ const deps = Array.from(
     splitting: false,
     write: true,
     inject: ['./shims/require-shim.js'],
+    minify: true,
   })
+  await fs.promises.copyFile('./package.json', './dist/package.json')
+  await fs.promises.copyFile('./CHANGELOG.md', './dist/./CHANGELOG.md')
 })().catch(err => {
   console.trace(err)
   process.exit(1)
