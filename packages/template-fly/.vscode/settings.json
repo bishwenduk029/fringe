@@ -1,6 +1,0 @@
-{
-  "tailwindCSS.includeLanguages": {
-    "typescript": "javascript",
-    "typescriptreact": "javascript"
-  }
-}
