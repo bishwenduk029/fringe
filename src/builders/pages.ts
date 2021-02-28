@@ -1,28 +1,27 @@
 import { Service } from 'esbuild'
 import * as Path from 'path'
 import type { Logger } from 'pino'
-import module from 'module'
-import graphqlLoaderPlugin from './plugins/graphql'
 import { Builder, CommonBuilderOptions } from '.'
+import module from 'module'
 
 const { builtinModules } = module
 
-export interface SereverGraphQLBuildResult {
-  graphqlNames: string[]
+export interface ServerPagesBuildResult {
+  pageNames: string[]
   serverApiEntry: string | null
 }
 
-export interface SereverGraphQLBuilderOptions {
+export interface ServerPagesBuilderOptions {
   logger: Logger
   service: Service
   rootDir: string
 }
 
-export class ServerGraphQLBuilder extends Builder {
+export class ServerPagesBuilder extends Builder {
   readonly logger: Logger
   readonly service: Service
   readonly rootDir: string
-  readonly pageSourcePath: string = 'src/graphql'
+  readonly pageSourcePath: string = 'src/pages'
   readonly pageBuildPath: string = 'dist'
 
   constructor(options: CommonBuilderOptions) {
@@ -36,17 +35,17 @@ export class ServerGraphQLBuilder extends Builder {
     const start = Date.now()
     const rootDir = this.rootDir
     const { modulePaths, deps } = await this.setup()
-    const graphqlModules = modulePaths
+    const pageModules = modulePaths
 
-    if (!graphqlModules || graphqlModules.length === 0) {
+    if (!pageModules || pageModules.length === 0) {
       this.logger.info(
         { latency: Date.now() - start },
-        'Graphql build skipped; no graphql entrypoints found.',
+        'Page build skipped; no page entry points found.',
       )
       return
     }
 
-    this.logger.info('Starting server graphql build')
+    this.logger.info('Starting server page build')
 
     await this.service.build({
       bundle: true,
@@ -55,11 +54,8 @@ export class ServerGraphQLBuilder extends Builder {
       },
       logLevel: 'error',
       entryPoints: [
-        ...graphqlModules.map(graphql =>
-          Path.resolve(
-            rootDir,
-            `${this.pageSourcePath}/${graphql}/index.graphql`,
-          ),
+        ...pageModules.map(page =>
+          Path.resolve(rootDir, `${this.pageSourcePath}/${page}/index.tsx`),
         ),
       ],
       external: [...builtinModules, ...deps],
@@ -69,9 +65,7 @@ export class ServerGraphQLBuilder extends Builder {
       outbase: Path.resolve(rootDir),
       outdir: Path.resolve(rootDir, this.pageBuildPath),
       platform: 'node',
-      resolveExtensions: ['.graphql', '.ts', '.js'],
-      plugins: [graphqlLoaderPlugin()],
-      outExtension: { '.js': '.js' },
+      resolveExtensions: ['.tsx', '.jsx'],
       sourcemap: false,
       splitting: false,
       treeShaking: true,
@@ -80,7 +74,7 @@ export class ServerGraphQLBuilder extends Builder {
 
     this.logger.info(
       { latency: Date.now() - start },
-      'Finished server graphql build',
+      'Finished server pages build',
     )
   }
 }

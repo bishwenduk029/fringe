@@ -22,6 +22,7 @@ async function main() {
       const { ServerApisBuilder } = await import('../builders/api')
 
       const { ServerGraphQLBuilder } = await import('../builders/graphql')
+      const { ServerPagesBuilder } = await import('../builders/pages')
 
       const options: CommonBuilderOptions = {
         logger: new pino(),
@@ -30,8 +31,9 @@ async function main() {
       }
       let apiBuilder = new ServerApisBuilder(options).build()
       let graphqlBuilder = new ServerGraphQLBuilder(options).build()
+      let pagesBuilder = new ServerPagesBuilder(options).build()
 
-      await Promise.all([apiBuilder, graphqlBuilder])
+      await Promise.all([apiBuilder, graphqlBuilder, pagesBuilder])
     })
 
   cli.help()

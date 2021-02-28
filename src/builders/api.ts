@@ -1,11 +1,8 @@
-import { watch } from 'chokidar'
 import { Service } from 'esbuild'
 import * as Path from 'path'
 import type { Logger } from 'pino'
-import fs from 'fs'
 import module from 'module'
-import { CommonBuilderOptions } from '.'
-import { ThrottledDelayer } from 'ts-primitives'
+import { Builder, CommonBuilderOptions } from '.'
 
 const { builtinModules } = module
 
@@ -14,51 +11,34 @@ export interface ServerApiBuildResult {
   serverApiEntry: string | null
 }
 
-export class ServerApisBuilder {
-  private readonly delayer: ThrottledDelayer<unknown>
-  private readonly logger: Logger
-  private readonly service: Service
-  private readonly rootDir: string
-  private readonly watcher = watch([], {
-    ignoreInitial: true,
-    usePolling: true,
-    interval: 16,
-  })
+export class ServerApisBuilder extends Builder {
+  readonly logger: Logger
+  readonly service: Service
+  readonly rootDir: string
+  readonly pageSourcePath: string = 'src/api'
+  readonly pageBuildPath: string = 'dist'
 
   constructor(options: CommonBuilderOptions) {
+    super()
     this.logger = options.logger
     this.service = options.service
     this.rootDir = options.rootDir
   }
 
-  async build() {
+  public async build() {
     const start = Date.now()
-    const rootDir = this.rootDir
-    const apiModules = await fs.promises.readdir(
-      Path.resolve(rootDir, 'src/api/'),
-      'utf-8',
-    )
-    const pkg = JSON.parse(
-      await fs.promises.readFile(Path.resolve(rootDir, 'package.json'), 'utf8'),
-    )
-
-    const deps = Array.from(
-      new Set([
-        ...Object.keys(pkg.dependencies || {}),
-        ...Object.keys(pkg.peerDependencies || {}),
-      ]),
-    )
+    const { modulePaths, deps } = await this.setup()
+    const apiModules = modulePaths
 
     if (!apiModules || apiModules.length === 0) {
       this.logger.info(
         { latency: Date.now() - start },
         'API functions build skipped; no api entrypoints found.',
       )
+      return
     }
 
     this.logger.info('Starting server api build')
-
-    const apiBuildPath = `dist`
 
     await this.service.build({
       bundle: true,
@@ -67,17 +47,17 @@ export class ServerApisBuilder {
       },
       logLevel: 'error',
       entryPoints: [
-        Path.resolve(rootDir, 'src/index.ts'),
+        Path.resolve(this.rootDir, 'src/index.ts'),
         ...apiModules.map(api =>
-          Path.resolve(rootDir, `src/api/${api}/index.ts`),
+          Path.resolve(this.rootDir, `${this.pageSourcePath}/${api}/index.ts`),
         ),
       ],
       external: [...builtinModules, ...deps],
       format: 'esm',
       incremental: false,
       minify: false,
-      outbase: Path.resolve(rootDir),
-      outdir: Path.resolve(rootDir, apiBuildPath),
+      outbase: Path.resolve(this.rootDir),
+      outdir: Path.resolve(this.rootDir, this.pageBuildPath),
       platform: 'node',
       plugins: [],
       resolveExtensions: ['.ts', '.js'],
@@ -91,14 +71,5 @@ export class ServerApisBuilder {
       { latency: Date.now() - start },
       'Finished server functions build',
     )
-  }
-
-  async start() {
-    await this.delayer.trigger(() => {
-      return this.build()
-    })
-    this.watcher.on('all', () => {
-      this.build()
-    })
   }
 }

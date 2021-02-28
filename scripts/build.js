@@ -28,6 +28,7 @@ const deps = Array.from(
       path.resolve(process.cwd(), `./src/index.ts`),
       path.resolve(process.cwd(), `./src/builders/api.ts`),
       path.resolve(process.cwd(), `./src/builders/graphql.ts`),
+      path.resolve(process.cwd(), `./src/builders/pages.ts`),
       path.resolve(process.cwd(), `./src/cli/index.ts`),
     ],
     format: 'esm',
