@@ -7,7 +7,7 @@ import { Cache, normalize, merge, denormalize } from 'cache'
 import { DocumentNode } from 'graphql'
 
 interface FringeResponse {
-  headers: object
+  headers: any
   response: any
 }
 
@@ -32,7 +32,29 @@ const buildHandler = async (source: string, pattern: RegExp, cache: Cache) => {
       }
       res.end(`Page not found: ${req.url}`)
     }
+    logger.info('Handler is ready now starting the server')
 
+    return main
+  } catch (error) {
+    logger.error(JSON.stringify(error))
+  }
+}
+
+export const buildCloudflareWorkerHandler = async (
+  source: string,
+  pattern: RegExp,
+  cache: Cache,
+) => {
+  try {
+    logger.info('Building the page context for all files')
+
+    const pagesContext = await buildPagesContext(source, pattern)
+    const main = async request => {
+      const result = await processRequest(pagesContext, request, cache)
+      return new Response(result.response, {
+        headers: result.headers,
+      })
+    }
     return main
   } catch (error) {
     logger.error(JSON.stringify(error))
@@ -41,7 +63,7 @@ const buildHandler = async (source: string, pattern: RegExp, cache: Cache) => {
 
 const processRequest = async (
   pagesContext: string[],
-  req: IncomingMessage,
+  req: any,
   cache: Cache,
 ): Promise<FringeResponse> => {
   const normalizedPathname = normalizePathname(req.url)

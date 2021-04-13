@@ -6,6 +6,7 @@
   "license": "MIT",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
+  "private": "true",
   "bin": {
     "fringe": "dist/cli/index.js"
   },
@@ -41,6 +42,7 @@
     "node-fetch": "^2.6.1",
     "pino": "^6.11.1",
     "redis": "^3.0.2",
+    "serialize-javascript": "^5.0.1",
     "ts-primitives": "^3.2.0"
   },
   "peerDependencies": {

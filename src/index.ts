@@ -2,6 +2,7 @@ import http from 'http'
 import buildHandler from './handler'
 import logger from './logging'
 import { Cache, RedisCache } from 'cache'
+import { buildCloudflareWorkerHandler } from './handler'
 
 const FRINGE_PORT = process.env.PORT || 8080
 const filePattern: RegExp = new RegExp('/.(js|jsx|ts|tsx|graphql)$/g')
@@ -23,6 +24,6 @@ const startApp = async (
   }
 }
 
-export { RedisCache }
+export { RedisCache, buildCloudflareWorkerHandler }
 
 export default startApp
