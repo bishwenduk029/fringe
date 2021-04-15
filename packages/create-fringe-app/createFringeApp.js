@@ -14,7 +14,12 @@ const GitHubUrlFromGit = require('github-url-from-git')
 const ChildProcess = require('child_process')
 const Events = require('events')
 
-const TEMPLATE_SPEC = 'bishwenduk029/fringe/packages/template-fly#master'
+const TEMPLATE_SPEC =
+  'bishwenduk029/fringe/packages/template-cloudflare-worker#master'
+// const getTemplatePathFromGit = templateName => {
+//   const TEMPLATE_SPEC = `bishwenduk029/fringe/packages/${templateName}#master`
+//   return TEMPLATE_SPEC
+// }
 
 const allowedFiles = new Set(['.gitignore'])
 const allowedDirectories = new Set(['.git'])
