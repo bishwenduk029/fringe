@@ -135,11 +135,6 @@ function init() {
           await packageJsonHandle.close()
         }
 
-        // We have a .npmrc in the template to prevent a package-lock.json from being
-        // baked into the template. Degit has likely happily reproduced that file so let's
-        // blow it away.
-        await Fs.unlink(Path.resolve(dest, './.npmrc'))
-
         console.error(Chalk.cyan(`> Installing dependencies`))
 
         // Now that the project is scaffolded, let's install dependencies

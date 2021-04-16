@@ -1,6 +1,6 @@
 {
   "name": "create-fringe-app",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Automatically bootstrap a Fringe Application",
   "main": "index.js",
   "bin": {

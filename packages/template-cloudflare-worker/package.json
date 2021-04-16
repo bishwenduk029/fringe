@@ -1,20 +1,22 @@
 {
-  "private": true,
-  "name": "worker",
-  "version": "1.0.0",
-  "description": "A template for kick starting a Cloudflare Workers project",
-  "main": "index.js",
+  "name": "fringe-app",
+  "version": "0.0.0",
+  "description": "A Create Fringe App project",
+  "main": "dist/index.js",
+  "type": "module",
   "scripts": {
-    "format": "prettier --write '**/*.{js,css,json,md}'",
-     "build": "fringe build",
-    "dev": "fringe dev",
-    "start": "cd dist && node ./src/index.js",
+    "build": "rm -rf dist && fringe build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "wrangler publish"
   },
-  "author": "Bishwendu Kundu <bishwenduk029@gmail.com>",
+  "keywords": [
+    "fringe",
+    "react"
+  ],
+  "author": "",
   "license": "MIT",
-  "devDependencies": {
-    "prettier": "^1.18.2"
+  "devDependencies": {},
+  "dependencies": {
+    "@bishwenduk029/fringe": "0.1.2"
   }
 }
